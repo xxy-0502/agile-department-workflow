@@ -1,4 +1,4 @@
 interface:
   display_name: "Agile Department Workflow"
-  short_description: "Run product, stack, and review gates."
-  default_prompt: "Use $agile-department-workflow to turn my project idea into a gated product, technical stack, and iteration plan."
+  short_description: "Light Product, R&D, Review roles."
+  default_prompt: "Use $agile-department-workflow. You are Product Department. Ask me clarifying questions, then write the master plan and current iteration Spec."
