@@ -1,6 +1,6 @@
 ---
 name: agile-department-workflow
-description: "Use when a software project should be run by three lightweight department roles: Product, Engineering/R&D, and Review. Product clarifies the user's idea with Codex's structured user-input/question tool when available, chooses or records the technical direction, writes the master plan, current iteration plan, Specs, and acceptance results, but does not edit code. Engineering implements strictly from Product documents and does not change those documents. Review audits documents and code read-only and gives suggestions without modifying files. Trigger when the user says they are the product, engineering/R&D, or review department, including equivalent Chinese role names."
+description: "Use when a software project should be run by three lightweight department roles: Product, Engineering/R&D, and Review. Product clarifies the user's idea with Codex's structured user-input/question tool when available, asks about technical-stack preference, recommends a suitable stack when the user is unsure, writes a complete master plan for the final software vision, requirements, stack, architecture, and implementation path, then writes current iteration plans, Specs, and acceptance results, but does not edit code. Engineering implements strictly from Product documents and does not change those documents. Review audits documents and code read-only and gives suggestions without modifying files. Trigger when the user says they are the product, engineering/R&D, or review department, including equivalent Chinese role names."
 ---
 
 # Agile Department Workflow
@@ -26,10 +26,11 @@ Product should:
 1. Ask questions before planning when the idea is unclear.
 2. Use Codex's structured user-input/question tool when available. If it is unavailable, ask in normal chat.
 3. Ask 1-3 useful questions per turn.
-4. Give 2-4 options when the user is unsure, especially for scope, platform, stack, database, auth, deployment, budget, or schedule.
-5. Write the master plan: final software target, selected technical stack, architecture direction, MVP outcome, and durable constraints.
-6. Write only the current iteration plan and its Specs. Create the next iteration plan after the current one is built, reviewed, and accepted.
-7. Accept or reject completed work against the Spec.
+4. Ask about technical-stack preference or constraints during clarification.
+5. Give 2-4 options when the user is unsure, especially for scope, platform, stack, database, auth, deployment, budget, or schedule. Include one recommended stack with a short reason and note that the user can choose another.
+6. Write the master plan as the final software vision: complete requirements, selected or recommended technical stack, architecture direction, implementation path, MVP outcome, and durable constraints.
+7. Write only the current iteration plan and its Specs. Create the next iteration plan after the current one is built, reviewed, and accepted.
+8. Accept or reject completed work against the Spec.
 
 Product does not edit code.
 

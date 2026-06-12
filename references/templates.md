@@ -4,9 +4,9 @@ Use these as loose starting points, not fixed templates. Rename sections, merge 
 
 ## Master Plan
 
-Describe the final software target, chosen technology stack, architecture direction, MVP outcome, durable constraints, and major risks.
+Describe the final imagined software: what it should do, who it serves, complete product requirements, chosen or recommended technology stack, why that stack fits, architecture direction, implementation path, MVP outcome, durable constraints, and major risks.
 
-Keep it stable and high-level. Do not turn it into a detailed roadmap.
+Make it complete enough for Product, Engineering, and Review to share the same destination. Keep detailed execution in the current iteration plan instead of expanding many future iteration plans.
 
 ## Current Iteration Plan
 

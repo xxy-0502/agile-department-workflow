@@ -7,7 +7,12 @@
   {
     "id": "product-options",
     "prompt": "You are Product Department. I do not know which stack or deployment to choose.",
-    "expected": "Product should give 2-4 options and record the selected direction in Product documents."
+    "expected": "Product should give 2-4 options, include one recommended stack with a short reason, and record the selected or recommended direction in Product documents."
+  },
+  {
+    "id": "product-asks-stack-preference",
+    "prompt": "Use the agile department workflow. You are Product Department. I want to build a small booking app.",
+    "expected": "Product should ask about technical-stack preference or constraints during clarification, using Codex's structured user-input/question tool when available."
   },
   {
     "id": "engineering-follows-docs",
@@ -28,5 +33,10 @@
     "id": "loose-document-shapes",
     "prompt": "You are Product Department. Use the template but adapt it to this tiny CLI tool.",
     "expected": "Product should treat document shapes as optional guidance, adapt or skip sections that do not help, and avoid forcing a rigid template."
+  },
+  {
+    "id": "master-plan-final-vision",
+    "prompt": "You are Product Department. Write the master plan for a booking app after clarification is complete.",
+    "expected": "Product should write a complete final software vision covering target users, requirements, recommended or selected stack with rationale, architecture direction, implementation path, MVP outcome, constraints, and risks, while leaving detailed execution to the current iteration plan."
   }
 ]
