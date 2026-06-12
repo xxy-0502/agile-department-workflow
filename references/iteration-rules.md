@@ -8,10 +8,11 @@ For a new idea, build the big plan before coding:
 2. Control verifies the Product Discovery Gate.
 3. Engineering runs Technical Discovery.
 4. Engineering writes `feasibility.md` and `architecture-options.md`.
-5. Review writes `technical-review.md`.
-6. Product writes vision and master Spec.
-7. Review writes risk assessment and quality gates.
-8. Control merges those into `master-plan.md`, `roadmap.md`, and `backlog.md`.
+5. Engineering writes `tech-stack-decision.md`.
+6. Review writes `technical-review.md`.
+7. Product writes vision and master Spec.
+8. Review writes risk assessment and quality gates.
+9. Control merges those into `master-plan.md`, `roadmap.md`, and `backlog.md`.
 
 No production code changes occur in master planning unless the user explicitly asks for a technical spike.
 
@@ -19,7 +20,11 @@ If Product Discovery lacks target user, core problem, core user flow, MVP scope,
 
 If Technical Discovery lacks new/existing project status, target platform, stack constraints, data persistence, login/permission needs, deployment target, or key non-functional constraints, Engineering asks questions or offers options and does not choose a stack silently.
 
+If `tech-stack-decision.md` lacks selected stack, frontend, backend, runtime, language, database, auth, storage, deployment, package manager, testing, API style, third-party services, observability, rejected alternatives, assumptions, or risks, Engineering asks questions or offers 2-4 complete stack options and does not enter technical review.
+
 If Review returns `request-changes` for `technical-review.md`, route back to Engineering for revised `architecture-options.md` and do not enter `master-planning`.
+
+`master-plan.md` must include `Approved Technical Baseline` copied from reviewed `tech-stack-decision.md`. If the baseline is missing, Control must repair the plan before any iteration planning or Spec drafting starts.
 
 ## Iteration Flow
 

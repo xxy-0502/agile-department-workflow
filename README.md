@@ -40,7 +40,7 @@ done
 archived
 ```
 
-其中两个关键闸门是：
+其中三个关键闸门是：
 
 1. **Product Discovery Gate**
    - 目标用户
@@ -62,7 +62,26 @@ archived
    - 部署目标
    - 规模、安全、隐私、性能、国际化、离线等非功能约束
 
-如果这些信息没问清楚，skill 会继续追问，不会生成 `master-plan.md`，也不会直接选择技术栈。
+3. **Tech Stack Decision Gate**
+   - Frontend
+   - Backend
+   - Runtime
+   - Language
+   - Database
+   - Auth
+   - Storage
+   - Deployment
+   - Package manager
+   - Testing
+   - API style
+   - Third-party services
+   - Observability
+   - Existing stack to preserve
+   - Rejected alternatives
+   - Assumptions
+   - Risks
+
+如果这些信息没问清楚，skill 会继续追问，不会生成 `master-plan.md`，也不会直接选择技术栈。主计划必须包含 `Approved Technical Baseline`，并来自评审通过的 `tech-stack-decision.md`。
 
 ## 安装方法
 
@@ -287,7 +306,8 @@ Review 只做审查，默认不改代码。
 - Engineering 不能改 Product Spec 或验收标准。
 - Review 默认不修改代码，只给审查结论。
 - Control 是唯一更新根 `status.md` 的角色。
-- 没有通过产品发现和技术发现，不生成主计划。
+- 没有通过产品发现、技术发现、技术栈决策和技术评审，不生成主计划。
+- 主计划必须包含 `Approved Technical Baseline`。
 - 没有通过 Spec review，不允许研发开始写代码。
 - 没有测试、日志、截图、命令输出或书面验收结果，不允许宣称完成。
 
@@ -314,6 +334,8 @@ references/
 
 - 模糊想法不能直接生成主计划。
 - 产品发现完整后，仍需技术发现才能选栈。
+- 技术栈缺失时，必须先生成并评审 `tech-stack-decision.md`。
+- 主计划必须包含 `Approved Technical Baseline`。
 - 用户不懂技术时，研发部应给 2-4 个选项并标记假设和风险。
 - 技术评审不通过时，不能进入 master planning。
 - 已完成文档和未完成文档必须分开处理。

@@ -77,6 +77,38 @@ Ask 1-3 concise technical questions per round. Use a structured user-input or mu
 
 If the user does not know an answer, Engineering must offer 2-4 options. Any default chosen without user certainty must be listed under `Assumptions` with a matching `Risk`.
 
+## Tech Stack Decision Gate
+
+Before `master-planning`, Engineering must produce `tech-stack-decision.md` and Review must approve it in `technical-review.md`.
+
+Required fields:
+
+- Frontend.
+- Backend.
+- Runtime.
+- Language.
+- Database.
+- Auth.
+- Storage.
+- Deployment.
+- Package manager.
+- Testing.
+- API style.
+- Third-party services.
+- Observability.
+- Existing stack to preserve.
+- Rejected alternatives.
+- Assumptions.
+- Risks.
+
+Hard gate:
+
+```text
+If the selected stack, rejected alternatives, assumptions, or risks are missing, do not enter master-planning.
+```
+
+If any stack field is unknown, Engineering must ask 1-3 concise questions or offer 2-4 complete stack options. Product may state constraints, but Product must not make the final technical stack decision.
+
 ## Phase Transition Matrix
 
 | Current Phase | Owner | Required Evidence | Required Output Files | status.md Updates | Next Phase | Rollback Route |
@@ -85,11 +117,11 @@ If the user does not know an answer, Engineering must offer 2-4 options. Any def
 | `product-discovery` | Product | Product Discovery Gate complete | `active/iteration-current/product/product-discovery.md` or `product/product-discovery.md` | `Current Phase: product-ready`; `Active Spec: SPEC-000-master`; `Next Owner: engineering` | `product-ready` | `product-discovery-blocked` |
 | `product-discovery-blocked` | Product/User | Missing product answers supplied | updated `product-discovery.md` | `Current Phase: product-discovery`; `Blocked: false`; `Next Owner: product` | `product-discovery` | stay blocked |
 | `product-ready` | Control | Product gate complete | readiness handoff | `Current Phase: technical-discovery`; `Next Owner: engineering` | `technical-discovery` | `product-discovery` |
-| `technical-discovery` | Engineering | Technical Discovery Gate complete | `engineering/technical-discovery.md`, `engineering/feasibility.md`, `engineering/architecture-options.md` | `Current Phase: technical-review`; `Next Owner: review` | `technical-review` | `technical-discovery-blocked` |
+| `technical-discovery` | Engineering | Technical Discovery Gate and Tech Stack Decision Gate complete | `engineering/technical-discovery.md`, `engineering/feasibility.md`, `engineering/architecture-options.md`, `engineering/tech-stack-decision.md` | `Current Phase: technical-review`; `Next Owner: review` | `technical-review` | `technical-discovery-blocked` |
 | `technical-discovery-blocked` | Engineering/User | Missing technical answers supplied | updated `technical-discovery.md` | `Current Phase: technical-discovery`; `Blocked: false`; `Next Owner: engineering` | `technical-discovery` | stay blocked |
-| `technical-review` | Review | Technical review verdict `approved` or accepted comments | `review/technical-review.md` | `Current Phase: tech-ready`; `Next Owner: control` | `tech-ready` | `technical-discovery` |
-| `tech-ready` | Control | Product and technical gates complete; technical review approved | master-planning handoff | `Current Phase: master-planning`; `Next Owner: product` | `master-planning` | `technical-review` |
-| `master-planning` | Product + Engineering + Review | Product vision, master Spec, feasibility, architecture options, technical review, risk gates, backlog | `master-plan.md`, `roadmap.md`, `backlog.md`, supporting department docs | `Current Phase: spec-draft`; `Next Owner: product`; `Active Iteration: iteration-current` | `spec-draft` | missing gate phase |
+| `technical-review` | Review | Technical review verdict `approved` or `approved-with-comments`; stack decision reviewed | `review/technical-review.md` | `Current Phase: tech-ready`; `Next Owner: control` | `tech-ready` | `technical-discovery` |
+| `tech-ready` | Control | Product and technical gates complete; technical stack decision approved; technical review approved | master-planning handoff | `Current Phase: master-planning`; `Next Owner: control` | `master-planning` | `technical-review` |
+| `master-planning` | Control | Product vision, master Spec, feasibility, architecture options, `tech-stack-decision.md`, technical review, risk gates, backlog | `master-plan.md`, `roadmap.md`, `backlog.md`, supporting department docs | `Current Phase: spec-draft`; `Next Owner: product`; `Active Iteration: iteration-current` | `spec-draft` | missing gate phase |
 | `spec-draft` | Product | Product Spec with testable acceptance criteria | `active/iteration-current/product/specs/SPEC-NNN.md` | `Current Phase: spec-review`; `Active Spec: SPEC-NNN`; `Next Owner: review` | `spec-review` | `product-discovery` |
 | `spec-review` | Review | Review verdict `approved` or accepted comments | `active/iteration-current/review/spec-review.md` | `Current Phase: approved-for-dev`; `Next Owner: engineering` | `approved-for-dev` | `spec-draft` |
 | `approved-for-dev` | Control | Story selected for iteration | sprint backlog update | `Current Phase: engineering-design`; `Next Owner: engineering` | `engineering-design` | `spec-review` |
@@ -107,6 +139,7 @@ If the user does not know an answer, Engineering must offer 2-4 options. Any def
 |---|---|---|
 | Product discovery incomplete | Product | Updated `product-discovery.md` or answered questions |
 | Technical discovery incomplete | Engineering | Updated `technical-discovery.md` or selected assumptions with risks |
+| Technical stack decision incomplete | Engineering | Revised `tech-stack-decision.md` with selected stack, rejected alternatives, assumptions, and risks |
 | Technical review rejects options | Engineering | Revised `architecture-options.md` and `feasibility.md` |
 | Spec unclear | Product | Revised Spec or answered questions |
 | Spec impossible or too broad | Product + Engineering | Scope reduction or feasibility note |

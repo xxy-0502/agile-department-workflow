@@ -104,6 +104,68 @@ Questions:
 Ready for technical-review: yes | no
 ```
 
+## Tech Stack Decision
+
+```text
+# Tech Stack Decision
+
+Status: draft | complete | blocked
+Owner: engineering
+
+## Product Inputs
+## Technical Discovery Inputs
+## Selected Stack
+Frontend:
+Backend:
+Runtime:
+Language:
+Database:
+Auth:
+Storage:
+Deployment:
+Package Manager:
+Testing:
+API Style:
+Third-party Services:
+Observability:
+Existing Stack to Preserve:
+
+## Why This Stack
+## Rejected Alternatives
+- Option:
+  Reason Rejected:
+  Risk Avoided:
+
+## Stack Options Offered
+- Option A:
+  Stack:
+  Pros:
+  Cons:
+  Cost:
+  Risks:
+  Best For:
+- Option B:
+  Stack:
+  Pros:
+  Cons:
+  Cost:
+  Risks:
+  Best For:
+- Option C:
+  Stack:
+  Pros:
+  Cons:
+  Cost:
+  Risks:
+  Best For:
+
+## Assumptions
+## Risks
+## Open Technical Questions
+## Tech Stack Decision Gate Result
+Ready for technical-review: yes | no
+```
+
 ## Feasibility
 
 ```text
@@ -152,8 +214,64 @@ Best For:
 
 ## Recommendation
 ## Why Not the Alternatives
+## Selected Stack Link
+tech-stack-decision.md:
 ## Assumptions
 ## Open Technical Questions
+```
+
+## Master Plan
+
+```text
+# Master Plan
+
+Status: draft | approved | blocked
+Owner: control
+
+## Source Documents
+- Product Discovery:
+- Technical Discovery:
+- Feasibility:
+- Architecture Options:
+- Tech Stack Decision:
+- Technical Review:
+
+## Product Summary
+Target User:
+Core Problem:
+Core User Flow:
+MVP Scope:
+Non-goals:
+Success / Acceptance Criteria:
+
+## Approved Technical Baseline
+Selected Stack:
+Frontend:
+Backend:
+Runtime:
+Language:
+Database:
+Auth:
+Storage:
+Deployment:
+Package Manager:
+Testing:
+API Style:
+Third-party Services:
+Observability:
+Existing Stack to Preserve:
+
+Why This Stack:
+Rejected Alternatives:
+Assumptions:
+Risks:
+Technical Review Verdict:
+
+## Roadmap Summary
+## Iteration Plan
+## Backlog Summary
+## Quality Gates
+## Open Decisions
 ```
 
 ## Technical Review

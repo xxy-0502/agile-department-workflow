@@ -1,6 +1,6 @@
 ---
 name: agile-department-workflow
-description: "Use when planning or running a software project with a multi-thread agile department workflow: a control thread coordinates product, engineering, and review threads; product writes Specs without code changes; engineering runs technical discovery and implements only approved Specs; review audits Specs, architecture options, designs, diffs, tests, and evidence; handoffs are stored in a local .agent-workspace/ with active and archived iterations. Trigger for product-engineering-review workflows, product discovery, technical discovery, agile iteration planning, Spec-driven development, multi-dialog agent collaboration, local handoff documents, or separating planning documents from code."
+description: "Use when planning or running a software project with a multi-thread agile department workflow: a control thread coordinates product, engineering, and review threads; product writes Specs without code changes; engineering runs technical discovery, produces an approved technical stack baseline, and implements only approved Specs; review audits Specs, architecture options, stack decisions, designs, diffs, tests, and evidence; handoffs are stored in a local .agent-workspace/ with active and archived iterations. Trigger for product-engineering-review workflows, product discovery, technical discovery, tech stack decisions, agile iteration planning, Spec-driven development, multi-dialog agent collaboration, local handoff documents, or separating planning documents from code."
 ---
 
 # Agile Department Workflow
@@ -9,8 +9,8 @@ Coordinate one software project through four separate conversations:
 
 - `control`: own status, routing, and handoffs.
 - `product`: write Specs, stories, priorities, and acceptance criteria. Do not edit code.
-- `engineering`: run technical discovery, propose architecture options, and implement only approved Specs.
-- `review`: audit requirements, architecture options, designs, diffs, tests, security risks, and completion evidence. Do not edit code by default.
+- `engineering`: run technical discovery, propose architecture options, write the technical stack decision, and implement only approved Specs.
+- `review`: audit requirements, architecture options, stack decisions, designs, diffs, tests, security risks, and completion evidence. Do not edit code by default.
 
 Use files in `.agent-workspace/` as the source of truth for cross-thread handoff. Do not rely on chat memory as the handoff record.
 
@@ -29,7 +29,7 @@ Use files in `.agent-workspace/` as the source of truth for cross-thread handoff
 9. `.agent-workspace/` is local collaboration state and should not be committed.
 10. Completed iteration documents move to `archive/`; history is append-only.
 11. A completion claim requires evidence: tests, diffs, logs, screenshots, command output, or written acceptance results.
-12. Master plans must be based on confirmed product discovery and technical discovery, not guessed product intent or guessed technology choices.
+12. Master plans must be based on confirmed product discovery, technical discovery, and an approved technical stack baseline, not guessed product intent or guessed technology choices.
 
 ## Operating Modes
 
@@ -97,7 +97,33 @@ Before generating `master-plan.md`, Engineering must confirm these fields:
 - Expected user or data scale.
 - Security, privacy, compliance, performance, offline, internationalization, or observability constraints.
 
-If any of new/existing project, target platform, existing stack constraint, data persistence, login/permission needs, deployment target, or key non-functional constraints is missing, do not enter `master-planning`. Engineering should ask concise technical questions through the Clarification Protocol. If the user does not know an answer, provide 2-4 options and mark any selected default as an `Assumption` with a `Risk`.
+If any of new/existing project, target platform, existing stack constraint, data persistence, login/permission needs, deployment target, or key non-functional constraints is missing, do not enter `master-planning`. Engineering must ask concise technical questions through the Clarification Protocol. If the user does not know an answer, provide 2-4 options and mark any selected default as an `Assumption` with a `Risk`.
+
+## Tech Stack Decision Gate
+
+Before generating `master-plan.md`, Engineering must produce `tech-stack-decision.md` and Review must approve it through `technical-review.md`.
+
+`tech-stack-decision.md` must record:
+
+- Frontend.
+- Backend.
+- Runtime.
+- Language.
+- Database.
+- Auth.
+- Storage.
+- Deployment.
+- Package manager.
+- Testing.
+- API style.
+- Third-party services.
+- Observability.
+- Existing stack to preserve.
+- Rejected alternatives.
+- Assumptions.
+- Risks.
+
+If any required stack field is unknown, Engineering must ask concise technical questions through the Clarification Protocol or offer 2-4 complete stack options. Do not enter `master-planning` until the selected stack is explicit, assumptions are paired with risks, rejected alternatives are named, and technical review is `approved` or `approved-with-comments`.
 
 ## Default State Flow
 
@@ -141,7 +167,8 @@ STOP before:
 - Creating or renaming thread conversations unless the user explicitly asked for separate threads.
 - Generating `master-plan.md` when Product Discovery Gate or Technical Discovery Gate is incomplete.
 - Choosing a technology stack before Technical Discovery Gate is complete.
-- Entering `master-planning` before Product Discovery, Technical Discovery, and technical review are complete.
+- Entering `master-planning` before Product Discovery, Technical Discovery, Tech Stack Decision, and technical review are complete.
+- Generating `master-plan.md` without an `Approved Technical Baseline` section copied from reviewed `tech-stack-decision.md`.
 - Starting code work when the active Spec is not `approved-for-dev`.
 - Marking a story done without review evidence and product acceptance.
 - Repairing or recreating `status.md` when evidence conflicts or recovery confidence is `low`.
@@ -158,6 +185,7 @@ If a checkpoint blocks progress, write the blocker in `status.md` and ask the us
 | `.agent-workspace/` missing in Run mode | Switch to Bootstrap proposal or ask to initialize. Do not invent state in chat only. |
 | Missing product discovery fields before technical discovery | Ask Product Discovery questions. Do not create `master-plan.md`. |
 | Missing technical discovery fields before master planning | Ask Technical Discovery questions or present options. Do not choose a stack silently. |
+| Missing `tech-stack-decision.md` before master planning | Route to Engineering for stack options and a selected baseline. Do not create `master-plan.md`. |
 | `status.md` missing and workspace is empty | Create initial `status.md` from `references/templates.md`. |
 | `status.md` missing but workspace has active/archive/inbox documents | Write `recovery-report.md`; repair only when confidence is `high`. |
 | `status.md` inconsistent with documents | Write `recovery-report.md`; if confidence is `low`, enter `blocked`. |
@@ -166,6 +194,7 @@ If a checkpoint blocks progress, write the blocker in `status.md` and ask the us
 | Spec lacks acceptance criteria | Route to Product with `request-changes`. Engineering must not start coding. |
 | Approved Spec conflicts with code reality | Route to Engineering for feasibility note, then Review for impact decision. |
 | Architecture options fail technical review | Route to Engineering for revised `architecture-options.md`; do not enter `master-planning`. |
+| Technical stack decision fails review | Route to Engineering for revised `tech-stack-decision.md`; do not enter `master-planning`. |
 | Review finds blocking issue | Keep state at the review phase and route changes to the owning department. |
 | Iteration has unfinished stories | Archive completed evidence, return unfinished stories to `backlog.md`, and list them in `final-summary.md`. |
 | Thread tool unavailable | Continue in semi-automatic mode: write handoff files and give the user the exact prompt to send. |
@@ -181,6 +210,7 @@ Do not:
 - Generate a master plan by guessing the user's product intent.
 - Choose a technology stack by guessing deployment, data, auth, or integration constraints.
 - Let Product make final technical stack decisions without Engineering options and Review risk check.
+- Generate a master plan that lacks an `Approved Technical Baseline`.
 - Delete old iteration documents to reduce clutter.
 - Rewrite archive history; add amendments instead.
 - Use chat messages as the only record of decisions.
@@ -196,4 +226,4 @@ Do not:
 - `references/iteration-rules.md`: master planning, sprint flow, archive rules, amendments.
 - `references/review-gates.md`: Definition of Ready, Definition of Done, review verdicts.
 - `references/thread-orchestration.md`: how control coordinates separate agent threads.
-- `references/templates.md`: copy-ready templates for Specs, status, handoffs, design, reviews, summaries, and retros.
+- `references/templates.md`: copy-ready templates for discovery, stack decisions, master plans, Specs, status, handoffs, design, reviews, summaries, and retros.

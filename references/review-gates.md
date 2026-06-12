@@ -57,6 +57,8 @@ Use only:
 - Architecture options reflect Product Discovery and Technical Discovery.
 - At least two viable options are compared, and three are preferred when meaningful: Fast MVP, Production-Ready, Minimal Dependency / Local-First.
 - Recommended stack is justified by target platform, existing stack, data persistence, auth/permission needs, deployment target, scale, and non-functional constraints.
+- `tech-stack-decision.md` exists and names the selected frontend, backend, runtime, language, database, auth, storage, deployment, package manager, testing, API style, third-party services, observability, and existing-stack constraints.
+- Rejected stack alternatives are named with reasons.
 - Assumptions are explicit and paired with risks.
 - Third-party services, hosting, database, auth, real-time, search, file upload, and notification decisions are either chosen or marked out of scope.
 - Over-engineering risk is checked.
@@ -64,6 +66,20 @@ Use only:
 - A technical spike is requested when a critical unknown can invalidate the plan.
 
 If technical review fails, return `request-changes` to Engineering and do not enter `master-planning`.
+
+## Master Plan Preflight Checklist
+
+Control may generate `master-plan.md` only when:
+
+- Product Discovery Gate is complete.
+- Technical Discovery Gate is complete.
+- `architecture-options.md` exists.
+- `tech-stack-decision.md` exists.
+- `technical-review.md` verdict is `approved` or `approved-with-comments`.
+- Stack assumptions are paired with risks.
+- `master-plan.md` includes `Approved Technical Baseline`.
+
+If any item fails, do not generate `master-plan.md`; route to the owning department.
 
 ## Code Review Checklist
 
@@ -91,7 +107,10 @@ If any red flag appears, the current phase must not advance.
 | Review approves without inspecting evidence | `request-changes`; require evidence review. |
 | Engineering chooses stack before Technical Discovery Gate passes | STOP; return to `technical-discovery`. |
 | Product makes final stack choice without Engineering options | STOP; route to Engineering for architecture options. |
+| `tech-stack-decision.md` is missing before master planning | STOP; return to Engineering for stack decision. |
+| `tech-stack-decision.md` lacks selected stack, rejected alternatives, assumptions, or risks | `request-changes`; return to Engineering. |
 | `master-plan.md` is generated before technical review approval | STOP; return to technical review. |
+| `master-plan.md` lacks `Approved Technical Baseline` | STOP; return to Control for master plan repair after stack review. |
 | Multiple engineering conversations edit the same working tree without a branch/worktree plan | STOP; control must define concurrency strategy. |
 | Archive files are rewritten directly | STOP; require amendment file instead. |
 | `status.md` is repaired with low confidence | STOP; create recovery report and enter `blocked`. |
