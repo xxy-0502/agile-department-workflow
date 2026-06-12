@@ -1,0 +1,92 @@
+[
+  {
+    "id": "happy-path-plan-only",
+    "prompt": "I have an idea for a small SaaS dashboard. Use the agile department workflow, but only give me the plan and do not create files yet.",
+    "expected": "The skill should choose Plan-only mode, describe the control/product/engineering/review workflow, and avoid file creation."
+  },
+  {
+    "id": "bootstrap-and-run",
+    "prompt": "Initialize the department workflow for this repo and prepare the first handoff so Product can write SPEC-001. Do not change source code.",
+    "expected": "The skill should follow the bootstrap checklist, create or preserve .agent-workspace, handle Git exclusion, initialize status, and prepare a product handoff without touching source code."
+  },
+  {
+    "id": "blocked-engineering",
+    "prompt": "Engineering wants to start coding from a draft Spec with no acceptance criteria. Continue the workflow.",
+    "expected": "The skill should block coding, route the issue back to Product or Review, and record the missing acceptance criteria."
+  },
+  {
+    "id": "discovery-missing-core-info",
+    "prompt": "I want to build a task management tool. Generate the master plan.",
+    "expected": "The skill should not generate master-plan.md yet. It should ask discovery questions about target user, core problem, core flow, MVP scope, success criteria, platform, and constraints."
+  },
+  {
+    "id": "status-recovery-low-confidence",
+    "prompt": "The workspace has two active iterations and status.md says a different Spec is in code review. Continue the workflow.",
+    "expected": "The skill should write or request a recovery-report.md, mark confidence low, enter blocked, and avoid silently repairing status.md."
+  },
+  {
+    "id": "agent-workspace-tracked-by-git",
+    "prompt": ".agent-workspace files are already tracked by Git. Bootstrap the workflow.",
+    "expected": "The skill should STOP and ask for a user decision before continuing; it must not proceed as if local-only collaboration state is safe."
+  },
+  {
+    "id": "audit-stale-workspace",
+    "prompt": "Audit the department workflow. active/iteration-current has no handoffs for the last review and archive has a directly edited old review.",
+    "expected": "The skill should use Audit mode, report stale active work and archive mutation, and avoid modifying code."
+  },
+  {
+    "id": "archive-with-unfinished-stories",
+    "prompt": "Close iteration 002. Two stories are complete and one story is unfinished.",
+    "expected": "The skill should write final-summary.md, archive completed evidence, return unfinished work to backlog, and not describe unfinished work as shipped."
+  },
+  {
+    "id": "code-review-request-changes",
+    "prompt": "Review found a blocking security issue in the implementation for SPEC-004.",
+    "expected": "The skill should keep the workflow at code-review, route fixes to Engineering, and require updated verification before Product acceptance."
+  },
+  {
+    "id": "product-acceptance-rejected",
+    "prompt": "Product rejected acceptance because the implemented workflow does not match the approved acceptance criteria.",
+    "expected": "The skill should not mark done. Control should decide whether this is Product clarification or Engineering correction and route accordingly."
+  },
+  {
+    "id": "thread-tool-unavailable",
+    "prompt": "Continue automatic department coordination, but no thread tool is available.",
+    "expected": "The skill should switch to semi-automatic mode, write handoff files, and provide exact prompts for the user to paste into department conversations."
+  },
+  {
+    "id": "conflicting-active-handoffs",
+    "prompt": "There are two active handoffs for Engineering that assign different Specs to the same working tree.",
+    "expected": "The skill should stop concurrent engineering work, require Control to choose one active owner or define a branch/worktree strategy, and record the conflict."
+  },
+  {
+    "id": "technical-discovery-missing-stack",
+    "prompt": "Product discovery is complete. Directly choose a tech stack and generate the master plan.",
+    "expected": "The skill should not choose a stack or generate master-plan.md. Engineering should ask technical discovery questions about new/existing project, platform, existing stack, data persistence, auth/permissions, deployment, integrations, scale, and non-functional constraints."
+  },
+  {
+    "id": "technical-discovery-user-unknown",
+    "prompt": "The product requirements are clear, but I do not know where this should be deployed or which database/auth stack to use.",
+    "expected": "The skill should offer 2-4 concrete deployment/data/auth options, allow an explicit assumption only when labeled, and record matching risks before technical review."
+  },
+  {
+    "id": "architecture-options-required",
+    "prompt": "Product and technical constraints are clear. Prepare the technical direction before master planning.",
+    "expected": "Engineering should output feasibility plus architecture-options.md with Fast MVP, Production-Ready, and Minimal Dependency / Local-First options, then route to technical review."
+  },
+  {
+    "id": "technical-review-request-changes",
+    "prompt": "Review found the proposed architecture is over-engineered and does not satisfy the deployment constraint.",
+    "expected": "The workflow should keep or return to technical-review/technical-discovery, route changes to Engineering for revised architecture-options.md, and not enter master-planning."
+  },
+  {
+    "id": "structured-clarification-round",
+    "prompt": "I have an idea for an app, but I only know it should help freelancers manage client work. Start the workflow and ask me what you need.",
+    "expected": "The skill should stay in product-discovery, ask only 1-3 high-impact product questions, use a structured user-input or multiple-choice tool when available, and avoid generating a master plan."
+  },
+  {
+    "id": "technical-choice-questioning",
+    "prompt": "The product discovery is complete, but I am not technical. Pick the stack you think is best and continue.",
+    "expected": "The skill should not silently pick a stack. Engineering should ask 1-3 technical questions or present 2-4 stack/deployment/data/auth options, record assumptions and risks, and wait before master-planning."
+  }
+]
