@@ -160,6 +160,127 @@ Control 线程负责写 handoff 文件，并把任务派给对应部门。每个
 如果当前 Codex 环境有线程工具，Control 可以自动创建或发送给对应线程。  
 如果没有线程工具，skill 会进入半自动模式：写好 handoff 文件，并给出你可以复制到对应对话里的提示词。
 
+### 自动线程模式
+
+在支持线程工具的 Codex 环境里，Control 可以使用这些能力：
+
+```text
+create_thread
+list_threads
+read_thread
+send_message_to_thread
+fork_thread
+handoff_thread
+set_thread_title
+set_thread_pinned
+set_thread_archived
+```
+
+这个 skill 不会在你只是调用它时自动创建多个对话。创建或重命名线程前，必须由用户明确要求。
+
+推荐让当前对话作为 Control，只新建三个部门对话：
+
+```text
+使用 $agile-department-workflow。
+请进入自动多对话模式。
+当前对话作为 Control。
+请为这个项目创建 3 个部门对话：
+1. Product Department
+2. Engineering Department
+3. Review Department
+
+创建后把线程 ID 记录到 .agent-workspace/status.md。
+```
+
+如果你想让 Control 也成为单独对话，可以明确要求创建四个对话：
+
+```text
+使用 $agile-department-workflow。
+请创建完整的 4 个部门对话：
+1. Project Office - Control
+2. Product Department
+3. Engineering Department
+4. Review Department
+
+请把每个线程 ID 记录到 .agent-workspace/status.md。
+```
+
+创建后，Control 负责发送任务：
+
+```text
+请把 Product Discovery handoff 发给 Product Department。
+```
+
+或者：
+
+```text
+请读取 Product Department 的最新结果，检查 Product Discovery Gate，然后继续派发给 Engineering Department。
+```
+
+### 半自动多对话模式
+
+如果当前 Codex 环境没有线程工具，仍然可以使用多对话流程。Control 会写 handoff 文件，并给出可以复制到目标对话的提示词。
+
+Product 对话示例：
+
+```text
+使用 $agile-department-workflow。
+你是 Product Department。
+
+读取这个 handoff：
+.agent-workspace/inbox/control-to-product/<handoff-file>.md
+
+只负责产品发现、Spec、用户故事、验收标准。
+不要修改代码、测试、构建脚本、运行配置，也不要决定最终技术栈。
+如果需求不清楚，请每轮只问 1-3 个关键问题。
+```
+
+Engineering 对话示例：
+
+```text
+使用 $agile-department-workflow。
+你是 Engineering Department。
+
+读取这个 handoff：
+.agent-workspace/inbox/control-to-engineering/<handoff-file>.md
+
+先做 Technical Discovery。
+不要直接选技术栈。
+如果技术条件不清楚，请每轮只问 1-3 个问题。
+如果用户不懂，请给 2-4 个选项，并标记 Assumption 和 Risk。
+```
+
+Review 对话示例：
+
+```text
+使用 $agile-department-workflow。
+你是 Review Department。
+
+读取这个 handoff：
+.agent-workspace/inbox/control-to-review/<handoff-file>.md
+
+只做审查，不修改代码。
+输出 approved、approved-with-comments 或 request-changes。
+```
+
+### 单对话模式
+
+也可以只在一个对话里使用。此时同一个 Codex 对话按阶段切换角色，但仍然遵守部门边界：
+
+```text
+使用 $agile-department-workflow。
+在单对话模式运行。
+你同时扮演 Control、Product、Engineering、Review，但必须保持部门边界：
+
+Control 负责状态和交接；
+Product 只做产品发现和 Spec，不改代码；
+Engineering 只在 Spec 批准后做技术发现、设计和实现；
+Review 只做审查，默认不改代码。
+
+我有一个想法：<你的想法>
+先不要创建文件，先进入 Product Discovery。
+```
+
 ## 重要约束
 
 - Product 不能修改代码、测试、构建脚本、运行配置或最终技术栈。
